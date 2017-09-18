@@ -1,6 +1,5 @@
 """ Import required libraries """
 import os
-import json
 
 from oauth2client.service_account import ServiceAccountCredentials
 from apiclient.discovery import build
@@ -17,7 +16,8 @@ def get_credentials(credentials):
     with open(CREDENTIALS_PATH, "w") as credentials_file:
         credentials_file.write(credentials)
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_PATH, SCOPES)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        CREDENTIALS_PATH, SCOPES)
 
     return credentials
 
@@ -57,5 +57,7 @@ def main(file_id, service_account_json, title="", user_email=""):
     except Exception:
         copy["success"] = False
         copy["description"] = "There is a problem with the Google Drive API, please try again."
+
+    os.remove(CREDENTIALS_PATH)
 
     return copy
